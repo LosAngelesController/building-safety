@@ -60,7 +60,7 @@ const filterableCasesKeys = Object.keys(filterableCases);
 const filterableCSR: any = {
   "BUILDING OR PROPERTY CONVERTED TO ANOTHER USE": 3237,
   "ABANDONED OR VACANT BUILDING LEFT OPEN TO THE PUBLIC": 911,
-  "GARAGE CONVERTED TO A DWELLING": 2395
+  "GARAGE CONVERTED TO A DWELLING": 2395,
 };
 
 const filterableCSRKeys = Object.keys(filterableCSR);
@@ -81,13 +81,12 @@ const Home: NextPage = () => {
 
   const [filteredCases, setFilteredCases] =
     useState<string[]>(filterableCasesKeys);
-  
-  const [filteredCSR, setFilteredCSR] =
-    useState<string[]>(filterableCSRKeys);
+
+  const [filteredCSR, setFilteredCSR] = useState<string[]>(filterableCSRKeys);
 
   const [filterpanelopened, setfilterpanelopened] =
     useState(shouldfilteropeninit);
-  
+
   const [showModal, setShowModal] = useState(false);
   const [caseClicked, setCaseClicked] = useState("");
   const onCaseClicked = (e: any) => {
@@ -1185,7 +1184,9 @@ const Home: NextPage = () => {
                       </div>
                       <div>
                         <p className="text-blue-400 text-xs mt-0">
-                          <strong>Code Enforcement Cases by CSR Case Description</strong>
+                          <strong>
+                            Code Enforcement Cases by CSR Case Description
+                          </strong>
                         </p>
                       </div>
                     </div>
