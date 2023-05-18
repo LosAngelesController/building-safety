@@ -28,7 +28,7 @@ export function CaseTypeModal(props: setModal) {
     {
       name: "PACE",
       description:
-        "Pro-Active Code Enforcement - Funded by the Community Development Block Grant to survey and target specific code enforcement problems in limited geographic regions in the City",
+        "Pro-Active Code Enforcement - LADBS' PACE program is focused on specific code enforcement problems in limited geographic regions in the City. Currently, LADBS is working to enforce City regulations related to seismic retrofits to ensure earthquake readiness in soft-story residential structures throughout the City.",
     },
     {
       name: "BILLBOARDS",

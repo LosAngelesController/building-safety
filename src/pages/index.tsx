@@ -52,14 +52,18 @@ const filterableCases: any = {
   CITATIONS: 2276,
   PACE: 140179,
   BILLBOARDS: 27,
-  VEIP: 788,
-  SIGNS: 822,
-  XXX: 1,
   CNAP: 932,
-  NAR: 1007,
 };
 
 const filterableCasesKeys = Object.keys(filterableCases);
+
+const filterableCSR: any = {
+  "BUILDING OR PROPERTY CONVERTED TO ANOTHER USE": 3237,
+  "ABANDONED OR VACANT BUILDING LEFT OPEN TO THE PUBLIC": 911,
+  "GARAGE CONVERTED TO A DWELLING": 2395
+};
+
+const filterableCSRKeys = Object.keys(filterableCSR);
 
 const Home: NextPage = () => {
   const shouldfilteropeninit =
@@ -77,9 +81,21 @@ const Home: NextPage = () => {
 
   const [filteredCases, setFilteredCases] =
     useState<string[]>(filterableCasesKeys);
+  
+  const [filteredCSR, setFilteredCSR] =
+    useState<string[]>(filterableCSRKeys);
 
   const [filterpanelopened, setfilterpanelopened] =
     useState(shouldfilteropeninit);
+  
+  const [showModal, setShowModal] = useState(false);
+  const [caseClicked, setCaseClicked] = useState("");
+  const onCaseClicked = (e: any) => {
+    setShowModal(true);
+    const caseType = e.target.textContent;
+    console.log("onCaseClicked", caseType);
+    setCaseClicked(caseType);
+  };
 
   //template name, this is used to submit to the map analytics software what the current state of the map is.
   var mapname = "building-safety";
@@ -108,6 +124,15 @@ const Home: NextPage = () => {
       setFilteredCases(["99999"]);
     } else {
       setFilteredCases(input);
+    }
+  };
+
+  const setFilteredCSRPre = (input: string[]) => {
+    console.log("inputvalidator", input);
+    if (input.length === 0) {
+      setFilteredCSR(["99999"]);
+    } else {
+      setFilteredCSR(input);
     }
   };
 
@@ -575,7 +600,7 @@ const Home: NextPage = () => {
             paint: {
               "line-color": "#dddddd",
               "line-opacity": 1,
-              "line-width": 3,
+              "line-width": 1.5,
             },
           },
           "road-label-navigation"
@@ -594,7 +619,7 @@ const Home: NextPage = () => {
             paint: {
               "line-color": "#7FE5D4",
               "line-opacity": 1,
-              "line-width": 2,
+              "line-width": 1,
             },
           },
           "road-label-navigation"
@@ -753,6 +778,14 @@ const Home: NextPage = () => {
       false,
     ]);
 
+    arrayoffilterables.push([
+      "match",
+      ["get", "CSR Problem Description"],
+      filteredCSR.map((csr) => String(csr)),
+      true,
+      false,
+    ]);
+
     if (mapref.current) {
       if (doneloadingmap) {
         const filterinput = JSON.parse(
@@ -766,7 +799,7 @@ const Home: NextPage = () => {
         }
       }
     }
-  }, [filteredYears, filteredAreas, filteredCases]);
+  }, [filteredYears, filteredAreas, filteredCases, filteredCSR]);
 
   const onSelect = () => {
     console.log("onSelect", selectedfilteropened);
@@ -776,6 +809,8 @@ const Home: NextPage = () => {
       setFilteredAreaPre(filterableAreasKeys);
     } else if (selectedfilteropened === "case") {
       setFilteredCasesPre(filterableCasesKeys);
+    } else if (selectedfilteropened === "csr") {
+      setFilteredCSRPre(filterableCSRKeys);
     }
   };
 
@@ -786,6 +821,8 @@ const Home: NextPage = () => {
       setFilteredAreaPre([]);
     } else if (selectedfilteropened === "case") {
       setFilteredCasesPre([]);
+    } else if (selectedfilteropened === "csr") {
+      setFilteredCSRPre([]);
     }
   };
 
@@ -802,16 +839,11 @@ const Home: NextPage = () => {
       setFilteredCasesPre(
         filterableCasesKeys.filter((n) => !filteredCases.includes(n))
       );
+    } else if (selectedfilteropened === "csr") {
+      setFilteredCSRPre(
+        filterableCSRKeys.filter((n) => !filteredCases.includes(n))
+      );
     }
-  };
-
-  const [showModal, setShowModal] = useState(false);
-  const [caseClicked, setCaseClicked] = useState("");
-  const onCaseClicked = (e: any) => {
-    setShowModal(true);
-    const caseType = e.target.textContent;
-    console.log("onCaseClicked", caseType);
-    setCaseClicked(caseType);
   };
 
   return (
@@ -967,6 +999,18 @@ const Home: NextPage = () => {
                   >
                     Case
                   </button>
+                  <button
+                    onClick={() => {
+                      setselectedfilteropened("csr");
+                    }}
+                    className={`px-2 border-b-2  py-1  font-semibold ${
+                      selectedfilteropened === "csr"
+                        ? "border-[#41ffca] text-[#41ffca]"
+                        : "hover:border-white border-transparent text-gray-50"
+                    }`}
+                  >
+                    CSR
+                  </button>
                 </div>
                 <div className="flex flex-col">
                   {selectedfilteropened === "year" && (
@@ -1099,6 +1143,50 @@ const Home: NextPage = () => {
                           <strong>Code Enforcement Cases by Case Type</strong>
                         </p>
                         <CaseTypes onCaseClicked={onCaseClicked} />
+                      </div>
+                    </div>
+                  )}
+                  {selectedfilteropened === "csr" && (
+                    <div className="mt-1">
+                      <SelectButtons
+                        onSelect={onSelect}
+                        onUnselect={onUnselect}
+                        onInvert={onInvert}
+                      />
+                      <div className="flex flex-row gap-x-1">
+                        <div className="flex items-center">
+                          <Checkbox.Group
+                            value={filteredCSR}
+                            onChange={setFilteredCSRPre}
+                          >
+                            <div
+                              className={`grid grid-cols-1
+                          } gap-x-4 `}
+                            >
+                              {Object.entries(filterableCSR).map(
+                                (eachEntry) => (
+                                  <Checkbox
+                                    value={eachEntry[0]}
+                                    label={
+                                      <span className="text-nowrap text-xs">
+                                        <span className="text-white">
+                                          {titleCase(eachEntry[0])}
+                                        </span>{" "}
+                                        <span>{eachEntry[1]}</span>
+                                      </span>
+                                    }
+                                    key={eachEntry[0]}
+                                  />
+                                )
+                              )}
+                            </div>
+                          </Checkbox.Group>
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-blue-400 text-xs mt-0">
+                          <strong>Code Enforcement Cases by CSR Case Description</strong>
+                        </p>
                       </div>
                     </div>
                   )}

@@ -25,16 +25,7 @@ export function CaseTypes(props: any) {
             BILLBOARDS
           </li>
           <li className="my-1" onClick={props.onCaseClicked}>
-            VEIP
-          </li>
-          <li className="my-1" onClick={props.onCaseClicked}>
-            SIGNS
-          </li>
-          <li className="my-1" onClick={props.onCaseClicked}>
             CNAP
-          </li>
-          <li className="my-1" onClick={props.onCaseClicked}>
-            NAR
           </li>
         </ul>
       </div>
