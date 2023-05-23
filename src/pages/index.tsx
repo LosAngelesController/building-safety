@@ -416,6 +416,24 @@ const Home: NextPage = () => {
         }
       });
 
+      map.on("mousedown", "building-safety-csr", (e) => {
+        console.log("mousedown", e, e.features);
+        if (e.features) {
+          const closestcoords = computeclosestcoordsfromevent(e);
+
+          const filteredfeatures = e.features.filter((feature: any) => {
+            return (
+              feature.geometry.coordinates[0] === closestcoords[0] &&
+              feature.geometry.coordinates[1] === closestcoords[1]
+            );
+          });
+
+          if (filteredfeatures.length > 0) {
+            console.log("filtered features", filteredfeatures);
+          }
+        }
+      });
+
       // Create a popup, but don't add it to the map yet.
       const popup = new mapboxgl.Popup({
         closeButton: false,
@@ -555,6 +573,141 @@ const Home: NextPage = () => {
           type: "FeatureCollection",
           features: [],
         },
+      });
+
+      map.on("mouseleave", "building-safety-csr", () => {
+        //check if the url query string "stopmouseleave" is true
+        //if it is, then don't do anything
+        //if it is not, then do the following
+
+        if (urlParams.get("stopmouseleave") === null) {
+          map.getCanvas().style.cursor = "";
+          popup.remove();
+        }
+      });
+
+      map.addSource("building-safety-point-csr", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
+
+      map.on("mouseover", "building-safety-csr", (e: any) => {
+        console.log("mouseover", e.features);
+
+        if (e.features) {
+          map.getCanvas().style.cursor = "pointer";
+          const closestcoords: any = computeclosestcoordsfromevent(e);
+
+          const filteredfeatures = e.features.filter((feature: any) => {
+            return (
+              feature.geometry.coordinates[0] === closestcoords[0] &&
+              feature.geometry.coordinates[1] === closestcoords[1]
+            );
+          });
+
+          // Copy coordinates array.
+          const coordinates = closestcoords.slice();
+
+          /*Ensure that if the map is zoomed out such that multiple
+          copies of the feature are visible, the popup appears
+          over the copy being pointed to.*/
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+
+          if (filteredfeatures.length > 0) {
+            if (filteredfeatures[0]) {
+              if (filteredfeatures[0].properties) {
+                if (
+                  filteredfeatures[0].properties["Area Planning Commission"]
+                ) {
+                  const areaPC =
+                    filteredfeatures[0].properties["Area Planning Commission"];
+                  console.log("filteredfeatures", filteredfeatures);
+
+                  const allthelineitems = filteredfeatures.map(
+                    (eachCase: any) => {
+                      if (eachCase.properties?.["Case #"]) {
+                        return `<li class="leading-none  my-1">Case #${
+                          eachCase.properties["Case #"]
+                        }
+                  ${
+                    eachCase.properties?.["Case Type"] &&
+                    eachCase.properties["Case Type"] != "UNKNOWN"
+                      ? `<span class="text-teal-200">Type: ${eachCase.properties["Case Type"]}</span>`
+                      : ""
+                  }
+                  <br/>
+                  ${
+                    eachCase.properties?.["Date Case Created"] &&
+                    eachCase.properties["Date Case Created"] != "UNKNOWN"
+                      ? `<span class="text-sky-400">Created: ${eachCase.properties["Date Case Created"]}</span>`
+                      : ""
+                  }${" "}
+                  ${
+                    eachCase.properties?.["Date Case Closed"] &&
+                    eachCase.properties["Date Case Closed"] != "UNKNOWN"
+                      ? `<span class="text-blue-200">Closed: ${eachCase.properties["Date Case Closed"]}</span>`
+                      : ""
+                  }${" "}
+                  ${
+                    eachCase.properties["CSR #"]
+                      ? `<br/><span class="text-pink-200">CSR #${eachCase.properties["CSR #"]}</span>`
+                      : ""
+                  }${" "}${
+                          eachCase.properties["CSR Problem Description"]
+                            ? `<span class="text-pink-400">${eachCase.properties[
+                                "CSR Problem Description"
+                              ].toLowerCase()}</span>`
+                            : ""
+                        }
+                  </li>`;
+                      }
+                    }
+                  );
+
+                  popup
+                    .setLngLat(coordinates)
+                    .setHTML(
+                      ` <div>
+                <p class="font-semibold">${titleCase(areaPC.toLowerCase())}</p>
+                <p>${filteredfeatures.length} Case${
+                        filteredfeatures.length > 1 ? "s" : ""
+                      }</p>
+
+                <ul class='list-disc leading-none'>${
+                  allthelineitems.length <= 7
+                    ? allthelineitems.join("")
+                    : allthelineitems.splice(0, 7).join("")
+                }</ul>
+                
+                ${
+                  allthelineitems.length >= 7
+                    ? `<p class="text-xs text-gray-300">Showing 10 of ${allthelineitems.length} cases</p>`
+                    : ""
+                }
+              </div><style>
+              .mapboxgl-popup-content {
+                background: #212121e0;
+                color: #fdfdfd;
+              }
+    
+              .flexcollate {
+                row-gap: 0.5rem;
+                display: flex;
+                flex-direction: column;
+              }
+              </style>`
+                    )
+                    .addTo(map);
+                }
+              }
+            }
+          }
+        }
       });
 
       map.loadImage("/map-marker.png", (error, image: any) => {
@@ -777,6 +930,24 @@ const Home: NextPage = () => {
       false,
     ]);
 
+    if (mapref.current) {
+      if (doneloadingmap) {
+        const filterinput = JSON.parse(
+          JSON.stringify(["all", ...arrayoffilterables])
+        );
+
+        console.log(filterinput);
+
+        if (doneloadingmap === true) {
+          mapref.current.setFilter("building-safety", filterinput);
+        }
+      }
+    }
+  }, [filteredYears, filteredAreas, filteredCases]);
+
+  useEffect(() => {
+    let arrayoffilterables: any = [];
+
     arrayoffilterables.push([
       "match",
       ["get", "CSR Problem Description"],
@@ -794,11 +965,11 @@ const Home: NextPage = () => {
         console.log(filterinput);
 
         if (doneloadingmap === true) {
-          mapref.current.setFilter("building-safety", filterinput);
+          mapref.current.setFilter("building-safety-csr", filterinput);
         }
       }
     }
-  }, [filteredYears, filteredAreas, filteredCases, filteredCSR]);
+  }, [filteredCSR]);
 
   const onSelect = () => {
     console.log("onSelect", selectedfilteropened);
@@ -840,7 +1011,7 @@ const Home: NextPage = () => {
       );
     } else if (selectedfilteropened === "csr") {
       setFilteredCSRPre(
-        filterableCSRKeys.filter((n) => !filteredCases.includes(n))
+        filterableCSRKeys.filter((n) => !filteredCSR.includes(n))
       );
     }
   };
@@ -961,10 +1132,16 @@ const Home: NextPage = () => {
                     setfilterpanelopened(false);
                   }}
                 />
+                <p className="text-xs mt-1 mb-2">
+                  <strong className="text-[#41ffca]">Select All</strong> in{" "}
+                  <strong>Year</strong>, <strong>Area</strong>, and{" "}
+                  <strong>Case</strong> tabs to reset map
+                </p>
                 <div className="gap-x-0 flex flex-row w-full pr-8">
                   <button
                     onClick={() => {
                       setselectedfilteropened("year");
+                      setFilteredCSRPre([]);
                     }}
                     className={`px-2 border-b-2 py-1  font-semibold ${
                       selectedfilteropened === "year"
@@ -977,6 +1154,7 @@ const Home: NextPage = () => {
                   <button
                     onClick={() => {
                       setselectedfilteropened("area");
+                      setFilteredCSRPre([]);
                     }}
                     className={`px-2 border-b-2  py-1  font-semibold ${
                       selectedfilteropened === "area"
@@ -989,6 +1167,7 @@ const Home: NextPage = () => {
                   <button
                     onClick={() => {
                       setselectedfilteropened("case");
+                      setFilteredCSRPre([]);
                     }}
                     className={`px-2 border-b-2  py-1  font-semibold ${
                       selectedfilteropened === "case"
@@ -1001,6 +1180,10 @@ const Home: NextPage = () => {
                   <button
                     onClick={() => {
                       setselectedfilteropened("csr");
+                      setFilteredCSRPre(filterableCSRKeys);
+                      setFilteredYearPre([]);
+                      setFilteredAreaPre([]);
+                      setFilteredCasesPre([]);
                     }}
                     className={`px-2 border-b-2  py-1  font-semibold ${
                       selectedfilteropened === "csr"
@@ -1184,9 +1367,24 @@ const Home: NextPage = () => {
                       </div>
                       <div>
                         <p className="text-blue-400 text-xs mt-0">
-                          <strong>
-                            Code Enforcement Cases by CSR Case Description
-                          </strong>
+                          <strong>Housing-Related CSR Case Descriptions</strong>
+                        </p>
+                        <p className="text-sm mt-2">
+                          <strong>Customer Service Request (CSR)</strong>
+                        </p>
+                        <p className="text-sm">
+                          A Customer Service Request is a request received by
+                          the Department of Building and Safety from the City's
+                          constituents to investigate a site/property for a
+                          possible violation of the City's building, electrical,
+                          mechanical and zoning regulations, which are elements
+                          of the Los Angeles Municipal Code. Any investigative
+                          action taken by a Building and Safety inspector
+                          constitutes the opening of a case. Where no Code
+                          violation is found, the case is immediately closed. If
+                          a Code violation is found, the case remains open until
+                          the site/property satisfies the requirements for Code
+                          compliance.
                         </p>
                       </div>
                     </div>
