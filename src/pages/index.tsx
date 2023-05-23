@@ -1367,8 +1367,9 @@ const Home: NextPage = () => {
                       </div>
                       <div>
                         <p className="text-blue-400 text-xs mt-0">
-                          <strong>Housing-Related CSR Case Descriptions</strong>
+                          <strong>Housing-Related CSR Case Descriptions 2018-2023</strong>
                         </p>
+                        <p className="text-[#41ffca] text-xs mt-1">Reset map to view Year, Area, and Case filters</p>
                         <p className="text-sm mt-2">
                           <strong>Customer Service Request (CSR)</strong>
                         </p>
