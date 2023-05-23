@@ -1372,7 +1372,7 @@ const Home: NextPage = () => {
                         <p className="text-sm mt-2">
                           <strong>Customer Service Request (CSR)</strong>
                         </p>
-                        <p className="text-sm">
+                        <p className="text-xs">
                           A Customer Service Request is a request received by
                           the Department of Building and Safety from the City's
                           constituents to investigate a site/property for a
