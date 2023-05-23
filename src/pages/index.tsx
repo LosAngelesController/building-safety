@@ -1374,9 +1374,9 @@ const Home: NextPage = () => {
                         </p>
                         <p className="text-xs">
                           A Customer Service Request is a request received by
-                          the Department of Building and Safety from the City's
+                          the Department of Building and Safety from the City&apos;s
                           constituents to investigate a site/property for a
-                          possible violation of the City's building, electrical,
+                          possible violation of the City&apos;s building, electrical,
                           mechanical and zoning regulations, which are elements
                           of the Los Angeles Municipal Code. Any investigative
                           action taken by a Building and Safety inspector
