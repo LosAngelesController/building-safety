@@ -1374,17 +1374,17 @@ const Home: NextPage = () => {
                         </p>
                         <p className="text-xs">
                           A Customer Service Request is a request received by
-                          the Department of Building and Safety from the City&apos;s
-                          constituents to investigate a site/property for a
-                          possible violation of the City&apos;s building, electrical,
-                          mechanical and zoning regulations, which are elements
-                          of the Los Angeles Municipal Code. Any investigative
-                          action taken by a Building and Safety inspector
-                          constitutes the opening of a case. Where no Code
-                          violation is found, the case is immediately closed. If
-                          a Code violation is found, the case remains open until
-                          the site/property satisfies the requirements for Code
-                          compliance.
+                          the Department of Building and Safety from the
+                          City&apos;s constituents to investigate a
+                          site/property for a possible violation of the
+                          City&apos;s building, electrical, mechanical and
+                          zoning regulations, which are elements of the Los
+                          Angeles Municipal Code. Any investigative action taken
+                          by a Building and Safety inspector constitutes the
+                          opening of a case. Where no Code violation is found,
+                          the case is immediately closed. If a Code violation is
+                          found, the case remains open until the site/property
+                          satisfies the requirements for Code compliance.
                         </p>
                       </div>
                     </div>
