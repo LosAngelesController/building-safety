@@ -1016,6 +1016,14 @@ const Home: NextPage = () => {
     }
   };
 
+  const onResetClicked = () => {
+    setselectedfilteropened("year");
+    setFilteredCSRPre([]);
+    setFilteredYearPre(filterableYearsKeys);
+    setFilteredAreaPre(filterableAreasKeys);
+    setFilteredCasesPre(filterableCasesKeys);
+  }
+
   return (
     <div className="flex flex-col h-full w-screen absolute">
       <MantineProvider
@@ -1098,8 +1106,16 @@ const Home: NextPage = () => {
 
         <div className="flex-initial h-content flex-col flex z-50">
           <div className="max-h-screen flex-col flex z-5">
-            <MapTitle />
-
+              <MapTitle />
+              <div
+                className="absolute titleBox mt-[3em] md:mt-[3.7em] md:ml-[15em] top-0 z-5 ml-[15em] text-base bold md:semi-bold break-words"
+                style={{
+                  backgroundColor: "#212121",
+                  color: "text-red-500",
+                }}
+              >
+                <button className="text-red-500 font-bold text-sm" onClick={onResetClicked}>RESET</button>
+              </div>
             <div
               className={`geocoder absolute mt-[2.7em] md:mt-[4.1em] ml-1 left-1 md:hidden xs:text-sm sm:text-base md:text-lg`}
               id="geocoder"
@@ -1132,11 +1148,6 @@ const Home: NextPage = () => {
                     setfilterpanelopened(false);
                   }}
                 />
-                <p className="text-xs mt-1 mb-2">
-                  <strong className="text-[#41ffca]">Select All</strong> in{" "}
-                  <strong>Year</strong>, <strong>Area</strong>, and{" "}
-                  <strong>Case</strong> tabs to reset map
-                </p>
                 <div className="gap-x-0 flex flex-row w-full pr-8">
                   <button
                     onClick={() => {
