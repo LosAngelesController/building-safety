@@ -135,6 +135,14 @@ const Home: NextPage = () => {
     }
   };
 
+  const onResetClicked = () => {
+    setselectedfilteropened("year");
+    setFilteredCSRPre([]);
+    setFilteredYearPre(filterableYearsKeys);
+    setFilteredAreaPre(filterableAreasKeys);
+    setFilteredCasesPre(filterableCasesKeys);
+  };
+
   var [hasStartedControls, setHasStartedControls] = useState(false);
 
   function checkHideOrShowTopRightGeocoder() {
@@ -1014,14 +1022,6 @@ const Home: NextPage = () => {
         filterableCSRKeys.filter((n) => !filteredCSR.includes(n))
       );
     }
-  };
-
-  const onResetClicked = () => {
-    setselectedfilteropened("year");
-    setFilteredCSRPre([]);
-    setFilteredYearPre(filterableYearsKeys);
-    setFilteredAreaPre(filterableAreasKeys);
-    setFilteredCasesPre(filterableCasesKeys);
   };
 
   return (
