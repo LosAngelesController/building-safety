@@ -1022,7 +1022,7 @@ const Home: NextPage = () => {
     setFilteredYearPre(filterableYearsKeys);
     setFilteredAreaPre(filterableAreasKeys);
     setFilteredCasesPre(filterableCasesKeys);
-  }
+  };
 
   return (
     <div className="flex flex-col h-full w-screen absolute">
@@ -1106,16 +1106,21 @@ const Home: NextPage = () => {
 
         <div className="flex-initial h-content flex-col flex z-50">
           <div className="max-h-screen flex-col flex z-5">
-              <MapTitle />
-              <div
-                className="absolute titleBox mt-[3em] md:mt-[3.7em] md:ml-[15em] top-0 z-5 ml-[15em] text-base bold md:semi-bold break-words"
-                style={{
-                  backgroundColor: "#212121",
-                  color: "text-red-500",
-                }}
+            <MapTitle />
+            <div
+              className="absolute titleBox mt-[3em] md:mt-[3.7em] md:ml-[15em] top-0 z-5 ml-[15em] text-base bold md:semi-bold break-words"
+              style={{
+                backgroundColor: "#212121",
+                color: "text-red-500",
+              }}
+            >
+              <button
+                className="text-red-500 font-bold text-sm"
+                onClick={onResetClicked}
               >
-                <button className="text-red-500 font-bold text-sm" onClick={onResetClicked}>RESET</button>
-              </div>
+                RESET
+              </button>
+            </div>
             <div
               className={`geocoder absolute mt-[2.7em] md:mt-[4.1em] ml-1 left-1 md:hidden xs:text-sm sm:text-base md:text-lg`}
               id="geocoder"
