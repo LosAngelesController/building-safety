@@ -1107,9 +1107,7 @@ const Home: NextPage = () => {
         <div className="flex-initial h-content flex-col flex z-50">
           <div className="max-h-screen flex-col flex z-5">
             <MapTitle />
-            <div 
-              className="absolute resetButton mt-[3em] md:mt-[3.7em] md:ml-[15em] top-0 z-5 ml-[15em] text-base bold md:semi-bold break-words"
-            >
+            <div className="absolute resetButton mt-[3em] md:mt-[3.7em] md:ml-[15em] top-0 z-5 ml-[15em] text-base bold md:semi-bold break-words">
               <button
                 className="text-red-500 font-bold text-sm"
                 onClick={onResetClicked}

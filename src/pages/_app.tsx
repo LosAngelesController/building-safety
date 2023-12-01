@@ -13,7 +13,6 @@ import { useEffect } from "react";
 
 import { Analytics } from "@vercel/analytics/react";
 
-
 const tagManagerArgs = {
   gtmId: "G-LFP8Y1HYF7",
 };
