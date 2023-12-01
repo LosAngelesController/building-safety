@@ -73,6 +73,15 @@
   border-radius: 4px;
 }
 
+.resetButton {
+  background: #212121;
+  color: rgb(239 68 68);
+  padding: 6px 12px;
+  z-index: 1;
+  width: fit-content;
+  border-radius: 4px;
+}
+
 .outsideTitle {
   /* background-color: #212121ee;
    color: #fff;*/

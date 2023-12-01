@@ -47,6 +47,7 @@
     "@turf/boolean-point-in-polygon": "^6.5.0",
     "@turf/turf": "^6.5.0",
     "@types/turf": "^3.5.32",
+    "@vercel/analytics": "^1.1.1",
     "firebase": "^9.16.0",
     "husky": "^8.0.3",
     "jest": "^29.3.1",

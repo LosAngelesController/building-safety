@@ -11,6 +11,9 @@ import "./mapboxdark.css";
 import TagManager from "react-gtm-module";
 import { useEffect } from "react";
 
+import { Analytics } from "@vercel/analytics/react";
+
+
 const tagManagerArgs = {
   gtmId: "G-LFP8Y1HYF7",
 };
@@ -19,7 +22,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     TagManager.initialize(tagManagerArgs);
   });
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Analytics />
+      <Component {...pageProps} />
+    </>
+  );
 }
 
 export default MyApp;
