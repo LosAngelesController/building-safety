@@ -4,15 +4,19 @@ const navigationPayroll = [
     name: "Map",
     url: "/",
   },
-  /*
   {
-    name: "Charts",
-    url: "/charts",
-    newtab: true,
-  },*/
-  {
-    name: "Los Angeles Controller",
+    name: "LA Controller",
     url: "https://controller.lacity.gov",
+    newtab: true,
+  },
+  {
+    name: "Table",
+    url: "https://docs.google.com/spreadsheets/d/1E_o91GepMfp0JpxM5xee9p6ZEQx4LdjyB2uEIzf5E-I/edit?usp=sharing",
+    newtab: true,
+  },
+  {
+    name: "Analysis",
+    url: "https://controller.lacity.gov/landings/building-safety",
     newtab: true,
   },
 ];
