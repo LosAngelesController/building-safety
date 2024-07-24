@@ -1061,21 +1061,21 @@ const Home: NextPage = () => {
         <Head>
           <link
             rel="icon"
-            href="https://mejiaforcontroller.com/wp-content/uploads/2020/12/cropped-favicon-1-32x32.png"
+            href="https://controller.lacity.gov/favicon.ico"
             sizes="32x32"
           />
           <link
             rel="icon"
-            href="https://mejiaforcontroller.com/wp-content/uploads/2020/12/cropped-favicon-1-192x192.png"
+            href="https://controller.lacity.gov/favicon.ico"
             sizes="192x192"
           />
           <link
             rel="apple-touch-icon"
-            href="https://mejiaforcontroller.com/wp-content/uploads/2020/12/cropped-favicon-1-180x180.png"
+            href="https://controller.lacity.gov/favicon.ico"
           />
           <meta
             name="msapplication-TileImage"
-            content="https://mejiaforcontroller.com/wp-content/uploads/2020/12/cropped-favicon-1-270x270.png"
+            content="https://controller.lacity.gov/favicon.ico"
           />
 
           <meta charSet="utf-8" />
