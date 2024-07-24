@@ -1000,10 +1000,13 @@ const Home: NextPage = () => {
   const onSelect = () => {
     // console.log("onSelect", selectedfilteropened);
     if (selectedfilteropened === "year") {
+      setFilteredCSRPre([]);
       setFilteredYearPre(filterableYearsKeys);
     } else if (selectedfilteropened === "area") {
+      setFilteredCSRPre([]);
       setFilteredAreaPre(filterableAreasKeys);
     } else if (selectedfilteropened === "case") {
+      setFilteredCSRPre([]);
       setFilteredCasesPre(filterableCasesKeys);
     } else if (selectedfilteropened === "csr") {
       setFilteredCSRPre(filterableCSRKeys);
@@ -1012,10 +1015,13 @@ const Home: NextPage = () => {
 
   const onUnselect = () => {
     if (selectedfilteropened === "year") {
+      setFilteredCSRPre([]);
       setFilteredYearPre([]);
     } else if (selectedfilteropened === "area") {
+      setFilteredCSRPre([]);
       setFilteredAreaPre([]);
     } else if (selectedfilteropened === "case") {
+      setFilteredCSRPre([]);
       setFilteredCasesPre([]);
     } else if (selectedfilteropened === "csr") {
       setFilteredCSRPre([]);
@@ -1024,14 +1030,17 @@ const Home: NextPage = () => {
 
   const onInvert = () => {
     if (selectedfilteropened === "year") {
+      setFilteredCSRPre([]);
       setFilteredYearPre(
         filterableYearsKeys.filter((n) => !filteredYears.includes(Number(n)))
       );
     } else if (selectedfilteropened === "area") {
+      setFilteredCSRPre([]);
       setFilteredAreaPre(
         filterableAreasKeys.filter((n) => !filteredAreas.includes(n))
       );
     } else if (selectedfilteropened === "case") {
+      setFilteredCSRPre([]);
       setFilteredCasesPre(
         filterableCasesKeys.filter((n) => !filteredCases.includes(n))
       );
