@@ -230,7 +230,6 @@ const Home: NextPage = () => {
         if (rtldone === false && hasStartedControls === false) {
           setHasStartedControls(true);
           //multilingual support
-          //right to left allows arabic rendering
           mapboxgl.setRTLTextPlugin(
             "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.10.1/mapbox-gl-rtl-text.js",
             (callbackinfo: any) => {
